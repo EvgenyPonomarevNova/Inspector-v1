@@ -1,0 +1,1633 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inspector Quadro — первый экран, концепт</title>
+  <meta name="description" content="Редизайн первого экрана Inspector Quadro на основе рекламных материалов." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Rubik:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #eef3ef;
+      --card: #ffffff;
+      --ink: #131b1e;
+      --muted: #60707a;
+      --line: rgba(18, 27, 31, 0.08);
+      --brand-blue: #2a70d5;
+      --brand-blue-2: #a9ddfb;
+      --brand-green: #79be49;
+      --brand-red: #eb2f2c;
+      --brand-warm: #e4c7ad;
+      --shadow: 0 18px 60px rgba(19, 27, 30, 0.12);
+      --radius-xl: 34px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --hero-grad-1: #dff2fb;
+      --hero-grad-2: #f8fbf6;
+      --hero-grad-3: #f7d7bf;
+      --hero-title: #182025;
+      --hero-accent: #3b7fe0;
+      --chip-bg: rgba(255,255,255,0.72);
+      --panel-bg: rgba(255,255,255,0.92);
+      --backdrop-opacity: .2;
+      --legal-bg: rgba(17, 24, 28, 0.88);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      font-family: 'Manrope', system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 12% 12%, rgba(169,221,251,.72), transparent 22%),
+        radial-gradient(circle at 88% 16%, rgba(121,190,73,.18), transparent 25%),
+        radial-gradient(circle at 82% 85%, rgba(235,47,44,.08), transparent 28%),
+        linear-gradient(180deg, #f5f8f5 0%, var(--bg) 100%);
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .page {
+      width: min(1600px, calc(100vw - 32px));
+      margin: 16px auto;
+      min-height: calc(100vh - 32px);
+      display: flex;
+      align-items: stretch;
+    }
+
+    .hero-shell {
+      position: relative;
+      width: 100%;
+      min-height: calc(100vh - 32px);
+      border-radius: 34px;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(255,255,255,.95), rgba(255,255,255,.9));
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.65);
+      isolation: isolate;
+    }
+
+    .hero-shell::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(18, 27, 31, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(18, 27, 31, 0.04) 1px, transparent 1px);
+      background-size: 72px 72px;
+      opacity: .45;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.2), rgba(0,0,0,.05));
+      pointer-events: none;
+    }
+
+    .hero-nav {
+      position: absolute;
+      left: 34px;
+      right: 34px;
+      top: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      position: relative;
+      width: 40px;
+      height: 46px;
+      flex: 0 0 auto;
+    }
+
+    .brand-mark::before,
+    .brand-mark::after,
+    .brand-mark span {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      transform: skewX(-18deg);
+    }
+
+    .brand-mark::before {
+      inset: 0 18px 0 0;
+      background: linear-gradient(180deg, #2a70d5, #1e4fb1);
+      clip-path: polygon(0 0, 80% 0, 46% 100%, 0 100%);
+    }
+
+    .brand-mark::after {
+      inset: 0 0 0 18px;
+      background: linear-gradient(180deg, #b5e0fb, #8bcdf3);
+      clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .brand-copy {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .brand-word {
+      font-size: 34px;
+      line-height: .9;
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: -0.04em;
+      color: #111;
+      white-space: nowrap;
+    }
+
+    .brand-badge {
+      align-self: flex-start;
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #fff;
+      background: linear-gradient(90deg, #eb2f2c, #d91b19);
+      border-radius: 999px;
+      padding: 8px 12px 7px;
+      box-shadow: 0 10px 20px rgba(217,27,25,.22);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-link,
+    .nav-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      text-decoration: none;
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1;
+      font-weight: 700;
+      padding: 12px 16px;
+      background: rgba(255,255,255,.68);
+      border: 1px solid rgba(18, 27, 31, 0.08);
+      backdrop-filter: blur(16px);
+      transition: transform .25s ease, background .25s ease, border-color .25s ease;
+      white-space: nowrap;
+    }
+
+    .nav-pill {
+      background: linear-gradient(135deg, rgba(42,112,213,.12), rgba(169,221,251,.75));
+      color: #0e2d67;
+      border-color: rgba(42,112,213,.14);
+    }
+
+    .nav-link:hover,
+    .nav-pill:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.92);
+    }
+
+    .hero-layout {
+      position: relative;
+      min-height: calc(100vh - 32px);
+      display: grid;
+      grid-template-columns: minmax(380px, 0.95fr) minmax(520px, 1.25fr);
+      padding: 116px 26px 26px;
+      gap: 22px;
+    }
+
+    .content-column {
+      position: relative;
+      padding: 0 0 0 12px;
+      display: flex;
+      align-items: stretch;
+      z-index: 2;
+    }
+
+    .content-card {
+      position: relative;
+      width: 100%;
+      padding: 30px 28px 24px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(18px);
+      border-radius: 30px;
+      border: 1px solid rgba(18, 27, 31, 0.08);
+      box-shadow: 0 20px 50px rgba(18, 27, 31, 0.08);
+      display: grid;
+      align-content: start;
+      gap: 24px;
+      overflow: hidden;
+    }
+
+    .content-card::before {
+      content: '';
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(169,221,251,.45) 0%, rgba(169,221,251,0) 68%);
+      right: -60px;
+      top: -70px;
+      pointer-events: none;
+    }
+
+    .eyebrow-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(18, 27, 31, 0.08);
+      box-shadow: 0 10px 22px rgba(18,27,31,.04);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #27455d;
+      width: fit-content;
+    }
+
+    .eyebrow .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--brand-green), #68a73d);
+      box-shadow: 0 0 0 5px rgba(121,190,73,.14);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(235,47,44,.12), rgba(255,255,255,.92));
+      border: 1px solid rgba(235,47,44,.14);
+      color: #962827;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .hero-copy {
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero-kicker {
+      font-size: 15px;
+      line-height: 1.5;
+      font-weight: 700;
+      color: #54646d;
+      max-width: 36ch;
+    }
+
+    .hero-title {
+      margin: 0;
+      display: grid;
+      gap: 6px;
+      color: var(--hero-title);
+    }
+
+    .hero-title-big {
+      font-family: 'Rubik', 'Manrope', sans-serif;
+      font-size: clamp(72px, 8vw, 136px);
+      line-height: .84;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+      text-transform: uppercase;
+      transform: skewX(-12deg);
+      transform-origin: left center;
+      color: var(--hero-accent);
+      text-shadow: 0 14px 34px rgba(42,112,213,.16);
+    }
+
+    .hero-title-small {
+      font-size: clamp(28px, 2.9vw, 52px);
+      line-height: .95;
+      letter-spacing: -0.05em;
+      font-weight: 900;
+      text-transform: uppercase;
+      max-width: 8ch;
+    }
+
+    .hero-description {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.62;
+      color: #41525b;
+      max-width: 30ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 18px 22px;
+      border-radius: 18px;
+      border: 0;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 1;
+      font-weight: 800;
+      transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(135deg, #1d59be, #2a70d5 60%, #4f8ee5 100%);
+      box-shadow: 0 18px 32px rgba(42,112,213,.26);
+    }
+
+    .btn-secondary {
+      color: var(--ink);
+      background: rgba(255,255,255,.86);
+      border: 1px solid rgba(18,27,31,.08);
+      box-shadow: 0 12px 22px rgba(18,27,31,.06);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-icon {
+      width: 18px;
+      height: 18px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 999px;
+      background: rgba(255,255,255,.18);
+      flex: 0 0 auto;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .meta-card {
+      background: rgba(255,255,255,.86);
+      border: 1px solid rgba(18,27,31,.08);
+      border-radius: 20px;
+      padding: 16px 16px 14px;
+      display: grid;
+      gap: 10px;
+      box-shadow: 0 14px 26px rgba(18,27,31,.045);
+    }
+
+    .meta-card-value {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: #102e63;
+    }
+
+    .meta-card-label {
+      font-size: 13px;
+      line-height: 1.45;
+      color: #576770;
+      font-weight: 700;
+    }
+
+    .journey {
+      display: grid;
+      gap: 12px;
+    }
+
+    .journey-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #2f424c;
+    }
+
+    .journey-line {
+      height: 2px;
+      background: linear-gradient(90deg, rgba(42,112,213,.3), rgba(18,27,31,.06));
+      flex: 1;
+      border-radius: 999px;
+    }
+
+    .journey-steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .journey-step {
+      background: rgba(255,255,255,.82);
+      border-radius: 20px;
+      padding: 14px;
+      border: 1px solid rgba(18,27,31,.08);
+      display: grid;
+      gap: 10px;
+    }
+
+    .journey-step-num {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(42,112,213,.12), rgba(169,221,251,.7));
+      color: #0f3879;
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .journey-step strong {
+      font-size: 15px;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+    }
+
+    .journey-step span {
+      font-size: 12px;
+      line-height: 1.45;
+      color: #60707a;
+      font-weight: 700;
+    }
+
+    .scene-column {
+      position: relative;
+      min-width: 0;
+      z-index: 1;
+    }
+
+    .scene-stage {
+      position: relative;
+      height: 100%;
+      min-height: 720px;
+      border-radius: 32px;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, var(--hero-grad-1), var(--hero-grad-2) 42%, var(--hero-grad-3) 100%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 24px 60px rgba(18,27,31,.1);
+      border: 1px solid rgba(255,255,255,.6);
+      isolation: isolate;
+    }
+
+    .scene-stage::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,0));
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .backdrop-image {
+      position: absolute;
+      inset: 0;
+      background-position: center;
+      background-size: cover;
+      opacity: var(--backdrop-opacity);
+      filter: saturate(1.05) contrast(1.02);
+      transition: background-image .45s ease, opacity .45s ease;
+      z-index: 0;
+    }
+
+    .scene-pattern,
+    .scene-pattern::before,
+    .scene-pattern::after {
+      position: absolute;
+      inset: auto;
+      content: '';
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .scene-pattern {
+      right: -80px;
+      top: -120px;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.42) 0%, rgba(255,255,255,0) 72%);
+      filter: blur(6px);
+    }
+
+    .scene-pattern::before {
+      left: -180px;
+      bottom: -230px;
+      width: 480px;
+      height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(121,190,73,.16) 0%, rgba(121,190,73,0) 66%);
+    }
+
+    .scene-pattern::after {
+      left: -120px;
+      top: 210px;
+      width: 280px;
+      height: 280px;
+      border-radius: 40px;
+      background: linear-gradient(135deg, rgba(42,112,213,.08), rgba(255,255,255,0));
+      transform: rotate(-18deg);
+    }
+
+    .scene-word {
+      position: absolute;
+      left: 38px;
+      top: 98px;
+      margin: 0;
+      font-family: 'Rubik', 'Manrope', sans-serif;
+      font-size: clamp(120px, 13vw, 220px);
+      line-height: .82;
+      font-weight: 900;
+      letter-spacing: -0.08em;
+      text-transform: uppercase;
+      transform: skewX(-12deg);
+      transform-origin: left center;
+      color: rgba(255,255,255,.88);
+      text-shadow: 0 12px 26px rgba(255,255,255,.12);
+      z-index: 2;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .scene-subword {
+      position: absolute;
+      left: 58px;
+      top: 282px;
+      font-family: 'Rubik', 'Manrope', sans-serif;
+      font-size: clamp(38px, 4vw, 64px);
+      line-height: .94;
+      font-weight: 800;
+      letter-spacing: -0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.95);
+      text-shadow: 0 14px 28px rgba(0,0,0,.12);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .scene-badge {
+      position: absolute;
+      right: 24px;
+      top: 24px;
+      display: grid;
+      gap: 12px;
+      justify-items: end;
+      z-index: 4;
+    }
+
+    .season-badge {
+      display: grid;
+      gap: 8px;
+      justify-items: end;
+      padding: 16px 18px 14px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.24);
+      backdrop-filter: blur(20px);
+      color: #fff;
+      min-width: 132px;
+      box-shadow: 0 16px 30px rgba(18,27,31,.12);
+    }
+
+    .season-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .season-num {
+      font-family: 'Rubik', 'Manrope', sans-serif;
+      font-size: 66px;
+      line-height: .8;
+      letter-spacing: -0.08em;
+      font-weight: 900;
+    }
+
+    .season-copy {
+      text-align: right;
+      font-size: 13px;
+      line-height: 1.15;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-top: 9px;
+    }
+
+    .season-icons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: .94;
+      font-size: 20px;
+    }
+
+    .stage-promo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.24);
+      color: #fff;
+      font-size: 13px;
+      line-height: 1.35;
+      font-weight: 800;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 14px 24px rgba(18,27,31,.12);
+    }
+
+    .stage-promo .promo-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #79be49, #5fa436);
+      box-shadow: 0 0 0 6px rgba(121,190,73,.15);
+      flex: 0 0 auto;
+    }
+
+    .scene-visual {
+      position: absolute;
+      left: 3%;
+      bottom: 70px;
+      width: 62%;
+      max-width: 720px;
+      z-index: 3;
+      pointer-events: none;
+      display: grid;
+      justify-items: start;
+    }
+
+    .scene-visual::after {
+      content: '';
+      position: absolute;
+      width: 86%;
+      height: 110px;
+      left: 7%;
+      bottom: 14px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(48,40,31,.24), rgba(48,40,31,0));
+      filter: blur(18px);
+      z-index: -1;
+      transform: translateY(8px);
+    }
+
+    .subject-wrap {
+      width: 100%;
+      display: grid;
+      justify-items: start;
+      transform-origin: left bottom;
+      transition: transform .45s ease;
+    }
+
+    .subject-image {
+      width: min(100%, 720px);
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 22px 30px rgba(18,27,31,.12));
+      transform-origin: left bottom;
+      animation: floatSubject 8s ease-in-out infinite;
+    }
+
+    @keyframes floatSubject {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .product-card {
+      position: absolute;
+      right: 28px;
+      bottom: 110px;
+      width: min(305px, 34%);
+      border-radius: 28px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(255,255,255,.76);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 22px 42px rgba(18,27,31,.14);
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+      z-index: 5;
+    }
+
+    .product-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .product-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: #395162;
+    }
+
+    .product-label::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--brand-red), #d81b19);
+      box-shadow: 0 0 0 5px rgba(235,47,44,.12);
+    }
+
+    .product-tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 800;
+      color: #0c356f;
+      background: linear-gradient(135deg, rgba(42,112,213,.12), rgba(169,221,251,.7));
+    }
+
+    .product-image {
+      width: 100%;
+      aspect-ratio: 1.25 / 1;
+      object-fit: contain;
+      filter: drop-shadow(0 20px 24px rgba(18,27,31,.12));
+      display: block;
+    }
+
+    .product-info {
+      display: grid;
+      gap: 6px;
+    }
+
+    .product-title {
+      font-size: 22px;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      color: #12191d;
+    }
+
+    .product-subtitle {
+      font-size: 14px;
+      line-height: 1.45;
+      color: #55656e;
+      font-weight: 700;
+    }
+
+    .product-points {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .product-points li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      line-height: 1.35;
+      color: #55656e;
+      font-weight: 800;
+    }
+
+    .product-points li::before {
+      content: '•';
+      color: var(--brand-red);
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .picker-card {
+      position: absolute;
+      right: 26px;
+      top: 150px;
+      width: min(320px, 36%);
+      padding: 18px;
+      border-radius: 28px;
+      background: rgba(255,255,255,.76);
+      border: 1px solid rgba(255,255,255,.72);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 18px 42px rgba(18,27,31,.14);
+      display: grid;
+      gap: 14px;
+      z-index: 5;
+    }
+
+    .picker-title {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.35;
+      color: #53656f;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .picker-big {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.06;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      max-width: 10ch;
+    }
+
+    .species-switch {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+    }
+
+    .species-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(18,27,31,.08);
+      background: rgba(255,255,255,.82);
+      color: #12202a;
+      font-size: 14px;
+      line-height: 1;
+      font-weight: 900;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+
+    .species-btn.active {
+      color: #fff;
+      background: linear-gradient(135deg, #1d59be, #2a70d5 65%, #4f8ee5 100%);
+      border-color: rgba(42,112,213,.18);
+      box-shadow: 0 16px 22px rgba(42,112,213,.24);
+    }
+
+    .picker-note {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #56666f;
+      font-weight: 700;
+    }
+
+    .picker-cta {
+      display: grid;
+      gap: 10px;
+    }
+
+    .mini-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #204a8e;
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1.3;
+      font-weight: 800;
+      width: fit-content;
+    }
+
+    .mini-link::before {
+      content: '↗';
+      font-size: 16px;
+    }
+
+    .thumb-rail {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      bottom: 24px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      z-index: 5;
+    }
+
+    .thumb {
+      position: relative;
+      overflow: hidden;
+      min-height: 112px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.45);
+      background: rgba(255,255,255,.12);
+      padding: 12px;
+      display: grid;
+      align-content: end;
+      color: #fff;
+      cursor: pointer;
+      transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease;
+      box-shadow: 0 16px 28px rgba(18,27,31,.1);
+    }
+
+    .thumb::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: var(--thumb-image);
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.02);
+      transition: transform .4s ease;
+      z-index: -2;
+    }
+
+    .thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(18,27,31,0) 0%, rgba(18,27,31,.18) 32%, rgba(18,27,31,.78) 100%);
+      z-index: -1;
+    }
+
+    .thumb:hover { transform: translateY(-3px); }
+    .thumb:hover::before { transform: scale(1.06); }
+
+    .thumb.active {
+      border-color: rgba(255,255,255,.8);
+      box-shadow: 0 18px 38px rgba(18,27,31,.18);
+      outline: 2px solid rgba(255,255,255,.25);
+    }
+
+    .thumb-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .thumb-index {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.2);
+      backdrop-filter: blur(14px);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .thumb-label {
+      font-size: 15px;
+      line-height: 1.1;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .thumb-caption {
+      font-size: 12px;
+      line-height: 1.3;
+      color: rgba(255,255,255,.82);
+      font-weight: 700;
+      max-width: 18ch;
+    }
+
+    .legal-bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 10px 30px 8px;
+      background: linear-gradient(180deg, rgba(18,27,31,0), var(--legal-bg) 28%);
+      color: rgba(255,255,255,.82);
+      font-size: 11px;
+      line-height: 1.45;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      font-weight: 700;
+      z-index: 6;
+      pointer-events: none;
+    }
+
+    .video-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 24px;
+      background: rgba(8,12,14,.6);
+      backdrop-filter: blur(8px);
+      z-index: 50;
+    }
+
+    .video-modal.open { display: grid; }
+
+    .modal-card {
+      width: min(1120px, 100%);
+      border-radius: 28px;
+      background: #fff;
+      box-shadow: 0 30px 80px rgba(18,27,31,.3);
+      overflow: hidden;
+      border: 1px solid rgba(18,27,31,.08);
+    }
+
+    .modal-head {
+      padding: 24px 28px 18px;
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 1px solid rgba(18,27,31,.08);
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: 32px;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      font-weight: 900;
+    }
+
+    .modal-text {
+      margin: 10px 0 0;
+      font-size: 16px;
+      line-height: 1.55;
+      color: #55656e;
+      max-width: 54ch;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      border: 1px solid rgba(18,27,31,.08);
+      background: #fff;
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+      color: var(--ink);
+    }
+
+    .video-grid {
+      padding: 24px 28px 28px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .video-card {
+      border-radius: 22px;
+      overflow: hidden;
+      background: #f5f8fa;
+      border: 1px solid rgba(18,27,31,.08);
+      display: grid;
+    }
+
+    .video-cover {
+      aspect-ratio: 4 / 5;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .video-cover::after {
+      content: '▶';
+      position: absolute;
+      inset: auto auto 16px 16px;
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: rgba(255,255,255,.92);
+      color: #113872;
+      box-shadow: 0 12px 18px rgba(18,27,31,.18);
+      font-size: 18px;
+    }
+
+    .video-body {
+      padding: 14px 14px 16px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .video-name {
+      font-size: 16px;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+      font-weight: 900;
+      margin: 0;
+    }
+
+    .video-caption {
+      font-size: 13px;
+      line-height: 1.45;
+      color: #596973;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .video-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 2px;
+      color: #204a8e;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .video-link::before { content: '↗'; }
+
+    .desktop-only { display: inline-flex; }
+
+    @media (max-width: 1320px) {
+      .hero-layout {
+        grid-template-columns: 1fr;
+      }
+      .content-column { padding: 0; }
+      .content-card { padding-bottom: 28px; }
+      .scene-stage { min-height: 900px; }
+      .scene-visual { width: 55%; }
+      .product-card { width: min(300px, 33%); }
+    }
+
+    @media (max-width: 980px) {
+      .page { width: calc(100vw - 16px); margin: 8px auto; }
+      .hero-shell, .scene-stage, .content-card { border-radius: 24px; }
+      .hero-nav {
+        position: relative;
+        inset: auto;
+        padding: 24px 20px 0;
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .nav-links { justify-content: flex-start; }
+      .desktop-only { display: none; }
+      .hero-layout {
+        padding: 18px 16px 16px;
+        gap: 16px;
+        min-height: auto;
+      }
+      .content-card { padding: 22px 18px; gap: 20px; }
+      .hero-title-big { font-size: clamp(60px, 18vw, 90px); }
+      .hero-title-small { max-width: 12ch; }
+      .hero-description { max-width: none; font-size: 16px; }
+      .meta-grid,
+      .journey-steps,
+      .thumb-rail,
+      .video-grid { grid-template-columns: 1fr; }
+      .scene-stage {
+        min-height: 900px;
+      }
+      .scene-word { left: 20px; top: 24px; font-size: min(28vw, 140px); }
+      .scene-subword { left: 24px; top: 148px; font-size: clamp(30px, 7vw, 48px); }
+      .picker-card {
+        top: 208px;
+        left: 18px;
+        right: 18px;
+        width: auto;
+      }
+      .scene-visual {
+        left: 0;
+        right: 0;
+        width: 86%;
+        margin: 0 auto;
+        bottom: 260px;
+        justify-items: center;
+      }
+      .product-card {
+        left: 18px;
+        right: 18px;
+        width: auto;
+        bottom: 170px;
+      }
+      .scene-badge {
+        right: 18px;
+        top: 18px;
+      }
+      .thumb-rail {
+        left: 18px;
+        right: 18px;
+        bottom: 50px;
+      }
+      .legal-bar { font-size: 10px; padding: 12px 18px 8px; }
+      .modal-head, .video-grid { padding-left: 18px; padding-right: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <main class="hero-shell">
+      <header class="hero-nav">
+        <div class="brand">
+          <div class="brand-mark"><span></span></div>
+          <div class="brand-copy">
+            <div class="brand-word">Inspector</div>
+            <div class="brand-badge">Quadro</div>
+          </div>
+        </div>
+        <nav class="nav-links">
+          <a class="nav-link" href="#">Препараты</a>
+          <a class="nav-link desktop-only" href="#">Как подобрать</a>
+          <a class="nav-link desktop-only" href="#">Где купить</a>
+          <a class="nav-link desktop-only" href="#">Служба заботы</a>
+          <a class="nav-pill" href="#">Промо-слот готов к активации</a>
+        </nav>
+      </header>
+
+      <section class="hero-layout">
+        <div class="content-column">
+          <div class="content-card">
+            <div class="eyebrow-row">
+              <div class="eyebrow"><span class="dot"></span> Первый экран · рекламный вход + быстрый подбор</div>
+              <div class="status-pill">Работает на реальных материалах кампании</div>
+            </div>
+
+            <div class="hero-copy">
+              <div class="hero-kicker">Первый экран собирает в одном месте сильный рекламный визуал, понятный вход в подбор и подготовленный слот под трейд‑маркетинговую активность.</div>
+              <h1 class="hero-title">
+                <span class="hero-title-big" id="copyTitleBig">МОЖНО</span>
+                <span class="hero-title-small" id="copyTitleSmall">на природу</span>
+              </h1>
+              <p class="hero-description" id="copyDescription">Подберите препарат Inspector для кошки или собаки — по возрасту, весу и ограничениям. Рекламный образ остаётся главным, а сценарий пользователя начинается уже на первом экране.</p>
+            </div>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#">
+                <span>Подобрать препарат</span>
+                <span class="btn-icon">→</span>
+              </a>
+              <button class="btn btn-secondary" id="openVideoModal" type="button">
+                <span>Смотреть кампанию</span>
+                <span class="btn-icon">▶</span>
+              </button>
+            </div>
+
+            <div class="meta-grid">
+              <div class="meta-card">
+                <div class="meta-card-value">4 сюжета</div>
+                <div class="meta-card-label">Можно переключать рекламные истории без ощущения слайдера‑шаблона.</div>
+              </div>
+              <div class="meta-card">
+                <div class="meta-card-value">1 понятный CTA</div>
+                <div class="meta-card-label">Главная кнопка ведёт в подбор, вторичный сценарий — в ролики и службу заботы.</div>
+              </div>
+              <div class="meta-card">
+                <div class="meta-card-value">Промо ready</div>
+                <div class="meta-card-label">На экране сразу заложено аккуратное место под будущие промо‑акции и спецпредложения.</div>
+              </div>
+            </div>
+
+            <div class="journey">
+              <div class="journey-title"><span>Маршрут пользователя</span><span class="journey-line"></span></div>
+              <div class="journey-steps">
+                <div class="journey-step">
+                  <div class="journey-step-num">01</div>
+                  <strong>Зацепить рекламным сюжетом</strong>
+                  <span>Первый экран сначала продаёт идею «Можно», а не начинает с таблицы или каталога.</span>
+                </div>
+                <div class="journey-step">
+                  <div class="journey-step-num">02</div>
+                  <strong>Мягко запустить подбор</strong>
+                  <span>Человек сразу понимает, что делать дальше: выбрать питомца и перейти к подбору.</span>
+                </div>
+                <div class="journey-step">
+                  <div class="journey-step-num">03</div>
+                  <strong>Перевести в покупку</strong>
+                  <span>После подбора пользователь попадает в карточку и дальше — в сценарий «Где купить».</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="scene-column">
+          <div class="scene-stage" id="sceneStage">
+            <div class="backdrop-image" id="backdrop"></div>
+            <div class="scene-pattern"></div>
+            <div class="scene-badge">
+              <div class="stage-promo"><span class="promo-dot"></span> Место под промокод / спецпредложение</div>
+              <div class="season-badge">
+                <div class="season-top">
+                  <div class="season-num">4</div>
+                  <div class="season-copy">сезона<br>защиты</div>
+                </div>
+                <div class="season-icons">☀︎ ❄︎ ☂︎ ✿</div>
+              </div>
+            </div>
+
+            <h2 class="scene-word" id="sceneWord">МОЖНО</h2>
+            <div class="scene-subword" id="sceneSubword">на природу</div>
+
+            <div class="picker-card">
+              <p class="picker-title">Быстрый старт подбора</p>
+              <h3 class="picker-big">Кому подбираем препарат?</h3>
+              <div class="species-switch">
+                <button class="species-btn active" type="button" data-species="dog">Для собаки</button>
+                <button class="species-btn" type="button" data-species="cat">Для кошки</button>
+              </div>
+              <div class="picker-note">На следующем шаге пользователь укажет вес, возраст и ограничения — без перегруза первого экрана.</div>
+              <div class="picker-cta">
+                <a class="btn btn-primary" href="#">
+                  <span>Начать подбор</span>
+                  <span class="btn-icon">→</span>
+                </a>
+                <a class="mini-link" href="#">Служба заботы — задать вопрос</a>
+              </div>
+            </div>
+
+            <div class="scene-visual">
+              <div class="subject-wrap">
+                <img class="subject-image" id="subjectImage" src="assets/dog-jack-russell.png" alt="Питомец Inspector" />
+              </div>
+            </div>
+
+            <div class="product-card">
+              <div class="product-header">
+                <div class="product-label">Препарат в фокусе</div>
+                <div class="product-tag" id="productTag">Кошки и собаки</div>
+              </div>
+              <img class="product-image" id="productImage" src="assets/product-duo-tabs.png" alt="Упаковка Inspector" />
+              <div class="product-info">
+                <div class="product-title" id="productTitle">Inspector Quadro Tabs</div>
+                <div class="product-subtitle" id="productSubtitle">Иллюстративный показ упаковки на первом экране — без попытки заменить им подбор препарата.</div>
+              </div>
+              <ul class="product-points" id="productPoints">
+                <li>Узнаваемая упаковка</li>
+                <li>Подходит для кампании</li>
+                <li>Аккуратная интеграция</li>
+                <li>Не перегружает экран</li>
+              </ul>
+            </div>
+
+            <div class="thumb-rail" id="thumbRail"></div>
+            <div class="legal-bar">Имеются противопоказания. Необходимо проконсультироваться с ветеринарным специалистом.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="video-modal" id="videoModal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <h2 class="modal-title">Рекламная кампания</h2>
+          <p class="modal-text">В концепте заложен сценарий для интеграции роликов кампании. Сейчас карточки ведут в общую папку с видео‑материалами на Яндекс Диске, которую можно заменить на локальные mp4 или встраиваемый плеер на следующем этапе.</p>
+        </div>
+        <button class="modal-close" type="button" id="closeVideoModal" aria-label="Закрыть">×</button>
+      </div>
+      <div class="video-grid" id="videoGrid"></div>
+    </div>
+  </div>
+
+  <script>
+    const slides = [
+      {
+        id: 'outdoor-dog',
+        label: 'На природу',
+        caption: 'Джек-рассел · активный outdoor-сюжет',
+        word: 'МОЖНО',
+        subword: 'на природу',
+        titleSmall: 'на природу',
+        description: 'Подберите препарат Inspector для кошки или собаки — по возрасту, весу и ограничениям. Рекламный образ остаётся главным, а сценарий пользователя начинается уже на первом экране.',
+        subject: 'assets/dog-jack-russell.png',
+        backdrop: 'assets/banner-jack-outdoor.png',
+        thumb: 'assets/banner-jack-outdoor.png',
+        product: 'assets/product-duo-tabs.png',
+        productTitle: 'Inspector Quadro Tabs',
+        productTag: 'Кошки и собаки',
+        productSubtitle: 'Единая упаковка в роли брендового якоря: узнаваемая, крупная, но не подменяющая результат подбора.',
+        points: ['Подходит для start-экрана', 'Сильный рекламный вход', 'Легко вести в подбор', 'Чистая композиция'],
+        colors: {
+          grad1: '#d8f2fb', grad2: '#eef7ef', grad3: '#ffe0c2', heroTitle: '#15232a', heroAccent: '#2f80d8', legalBg: 'rgba(13,18,24,.86)'
+        },
+        species: 'dog'
+      },
+      {
+        id: 'bed-dog',
+        label: 'На кровать',
+        caption: 'Сенбернар · домашний warm-сюжет',
+        word: 'МОЖНО',
+        subword: 'на кровать',
+        titleSmall: 'на кровать',
+        description: 'Более тёплая и эмоциональная версия первого экрана. Сюжет работает на уют и доверие, а правый модуль подбора остаётся неизменным и удерживает сценарий в продуктовой логике.',
+        subject: 'assets/dog-saint-bernard.png',
+        backdrop: 'assets/banner-saint-bed.png',
+        thumb: 'assets/banner-saint-bed.png',
+        product: 'assets/product-dog-tabs.png',
+        productTitle: 'Inspector Quadro Tabs',
+        productTag: 'Для собак',
+        productSubtitle: 'Показывает релевантную продуктовую ветку для dog‑сцены и усиливает ощущение продуманной системы.',
+        points: ['Тёплый домашний тон', 'Подходит для промо', 'Глубокая картинка', 'Меньше визуального шума'],
+        colors: {
+          grad1: '#f2e4d9', grad2: '#f6efe6', grad3: '#d6b397', heroTitle: '#1f1a17', heroAccent: '#8c4d2e', legalBg: 'rgba(33,23,17,.86)'
+        },
+        species: 'dog'
+      },
+      {
+        id: 'outdoor-cat',
+        label: 'На дачу',
+        caption: 'Мейн-кун · outdoor для cat‑линейки',
+        word: 'МОЖНО',
+        subword: 'на дачу',
+        titleSmall: 'на дачу',
+        description: 'Вариант для cat‑коммуникации с более природным фоном и крупным характерным силуэтом мейн-куна. Визуально экран остаётся частью единой кампании, но звучит иначе.',
+        subject: 'assets/cat-maine-coon.png',
+        backdrop: 'assets/banner-maine-outdoor.png',
+        thumb: 'assets/banner-maine-outdoor.png',
+        product: 'assets/product-maine-cat.png',
+        productTitle: 'Inspector Quadro K',
+        productTag: 'Для кошек',
+        productSubtitle: 'Упаковка появляется как аккуратный product‑anchor, а не как каталог препаратов на первом экране.',
+        points: ['Cat-first сценарий', 'Зелёная outdoor-палитра', 'Хорошо для акций', 'Быстрый переход в подбор'],
+        colors: {
+          grad1: '#def2cf', grad2: '#f4f9ee', grad3: '#d2c38e', heroTitle: '#1b2418', heroAccent: '#6ea641', legalBg: 'rgba(22,27,18,.84)'
+        },
+        species: 'cat'
+      },
+      {
+        id: 'pillow-cat',
+        label: 'Спать на подушке',
+        caption: 'Британец · спокойный indoor-сюжет',
+        word: 'МОЖНО',
+        subword: 'спать на подушке',
+        titleSmall: 'спать на подушке',
+        description: 'Самый спокойный и premium по тону вариант. Подходит, если хочется сделать акцент на комфорт, мягкость и более «чистую» подачу линейки для кошек.',
+        subject: 'assets/cat-british.png',
+        backdrop: 'assets/banner-british-pillow.png',
+        thumb: 'assets/banner-british-pillow.png',
+        product: 'assets/product-british-cat.png',
+        productTitle: 'Inspector Quadro K',
+        productTag: 'Для кошек',
+        productSubtitle: 'Мягкая indoor‑композиция с аккуратной product‑врезкой и фокусом на ощущение безопасности дома.',
+        points: ['Чистый premium-вайб', 'Подходит для A/B теста', 'Cat‑friendly тон', 'Меньше агрессии, больше заботы'],
+        colors: {
+          grad1: '#efe4d8', grad2: '#faf7f1', grad3: '#caa88d', heroTitle: '#231c19', heroAccent: '#b9723e', legalBg: 'rgba(30,23,20,.84)'
+        },
+        species: 'cat'
+      }
+    ];
+
+    const state = { index: 0, species: 'dog' };
+
+    const root = document.documentElement;
+    const backdrop = document.getElementById('backdrop');
+    const sceneWord = document.getElementById('sceneWord');
+    const sceneSubword = document.getElementById('sceneSubword');
+    const copyTitleBig = document.getElementById('copyTitleBig');
+    const copyTitleSmall = document.getElementById('copyTitleSmall');
+    const copyDescription = document.getElementById('copyDescription');
+    const subjectImage = document.getElementById('subjectImage');
+    const productImage = document.getElementById('productImage');
+    const productTitle = document.getElementById('productTitle');
+    const productTag = document.getElementById('productTag');
+    const productSubtitle = document.getElementById('productSubtitle');
+    const productPoints = document.getElementById('productPoints');
+    const thumbRail = document.getElementById('thumbRail');
+    const speciesBtns = Array.from(document.querySelectorAll('.species-btn'));
+    const videoGrid = document.getElementById('videoGrid');
+    const videoModal = document.getElementById('videoModal');
+    const openVideoModal = document.getElementById('openVideoModal');
+    const closeVideoModal = document.getElementById('closeVideoModal');
+
+    function setTheme(colors) {
+      root.style.setProperty('--hero-grad-1', colors.grad1);
+      root.style.setProperty('--hero-grad-2', colors.grad2);
+      root.style.setProperty('--hero-grad-3', colors.grad3);
+      root.style.setProperty('--hero-title', colors.heroTitle);
+      root.style.setProperty('--hero-accent', colors.heroAccent);
+      root.style.setProperty('--legal-bg', colors.legalBg);
+    }
+
+    function renderThumbs() {
+      thumbRail.innerHTML = slides.map((slide, idx) => `
+        <button class="thumb ${idx === state.index ? 'active' : ''}" style="--thumb-image:url('${slide.thumb}')" data-index="${idx}" type="button" aria-label="${slide.label}">
+          <div class="thumb-meta">
+            <div class="thumb-index">0${idx + 1}</div>
+          </div>
+          <div class="thumb-label">${slide.label}</div>
+          <div class="thumb-caption">${slide.caption}</div>
+        </button>
+      `).join('');
+
+      thumbRail.querySelectorAll('.thumb').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.index = Number(btn.dataset.index);
+          state.species = slides[state.index].species;
+          applySlide();
+        });
+      });
+    }
+
+    function renderVideoCards() {
+      videoGrid.innerHTML = slides.map(slide => `
+        <div class="video-card">
+          <div class="video-cover" style="background-image:url('${slide.thumb}')"></div>
+          <div class="video-body">
+            <h3 class="video-name">${slide.label}</h3>
+            <p class="video-caption">${slide.caption}. На следующем этапе можно подключить локальный mp4 или встроенный player.</p>
+            <a class="video-link" href="https://disk.yandex.ru/d/bkK6v-PrLj28CQ" target="_blank" rel="noreferrer noopener">Открыть папку с роликами</a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderPoints(points) {
+      productPoints.innerHTML = points.map(text => `<li>${text}</li>`).join('');
+    }
+
+    function applySpeciesUI() {
+      speciesBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.species === state.species));
+    }
+
+    function applySlide() {
+      const slide = slides[state.index];
+      setTheme(slide.colors);
+      backdrop.style.backgroundImage = `url('${slide.backdrop}')`;
+      sceneWord.textContent = slide.word;
+      sceneSubword.textContent = slide.subword;
+      copyTitleBig.textContent = slide.word;
+      copyTitleSmall.textContent = slide.titleSmall;
+      copyDescription.textContent = slide.description;
+      subjectImage.src = slide.subject;
+      productImage.src = slide.product;
+      productTitle.textContent = slide.productTitle;
+      productTag.textContent = slide.productTag;
+      productSubtitle.textContent = slide.productSubtitle;
+      state.species = slide.species;
+      renderPoints(slide.points);
+      renderThumbs();
+      applySpeciesUI();
+    }
+
+    speciesBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.species = btn.dataset.species;
+        applySpeciesUI();
+      });
+    });
+
+    openVideoModal.addEventListener('click', () => {
+      videoModal.classList.add('open');
+      videoModal.setAttribute('aria-hidden', 'false');
+    });
+
+    closeVideoModal.addEventListener('click', () => {
+      videoModal.classList.remove('open');
+      videoModal.setAttribute('aria-hidden', 'true');
+    });
+
+    videoModal.addEventListener('click', (e) => {
+      if (e.target === videoModal) {
+        videoModal.classList.remove('open');
+        videoModal.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        videoModal.classList.remove('open');
+        videoModal.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    renderVideoCards();
+    applySlide();
+  </script>
+</body>
+</html>

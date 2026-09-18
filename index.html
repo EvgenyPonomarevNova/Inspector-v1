@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Inspector Quadro — С Inspector МОЖНО! Защита кошек и собак от паразитов</title>
+<meta name="description" content="Подберите препарат Inspector по виду, весу и возрасту питомца и купите у проверенных продавцов. Комплексная защита от 4 групп паразитов.">
+<meta name="theme-color" content="#2d2219">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:ital,wght@0,600;0,800;1,600;1,700;1,800;1,900&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/bg-british.webp">
+<link rel="preload" as="image" href="img/layer-british.webp">
+<link rel="stylesheet" href="css/style.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+
+<!-- Icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M20 12H5M11 6l-6 6 6 6"/></symbol>
+    <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/><path d="M9 11h.01M12 11h.01M15 11h.01"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 8h16M4 16h16"/></symbol>
+    <symbol id="i-scale" viewBox="0 0 24 24"><path d="M5 20h14l-1.5-11h-11z"/><path d="M9 9a3 3 0 0 1 6 0"/></symbol>
+    <symbol id="i-age" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></symbol>
+    <symbol id="i-paw" viewBox="0 0 24 24"><ellipse cx="12" cy="16" rx="4.5" ry="3.8"/><circle cx="6.5" cy="10.5" r="1.8"/><circle cx="17.5" cy="10.5" r="1.8"/><circle cx="9.5" cy="6.5" r="1.8"/><circle cx="14.5" cy="6.5" r="1.8"/></symbol>
+
+    <!-- species -->
+    <symbol id="i-cat" viewBox="0 0 32 32"><path d="M7 5l4.5 5h9L25 5l1 10.5c0 6-4.5 10.5-10 10.5S6 21.5 6 15.5z"/><path d="M12 16.5h.01M20 16.5h.01"/><path d="M14.5 20.5L16 22l1.5-1.5M3 18l5 .5M3 22l5-1M29 18l-5 .5M29 22l-5-1"/></symbol>
+    <symbol id="i-dog" viewBox="0 0 32 32"><path d="M10 7h12l4 3-1.5 8c-.5 5-4 9-8.5 9s-8-4-8.5-9L6 10z"/><path d="M6 10l-2.5 7.5L7.5 19M26 10l2.5 7.5-4 1.5"/><path d="M13 15h.01M19 15h.01"/><path d="M14 20.5h4l-2 2z"/></symbol>
+
+    <!-- seasons -->
+    <symbol id="i-winter" viewBox="0 0 24 24"><path d="M12 2v20M3.5 7l17 10M20.5 7l-17 10"/><path d="M9.5 3.5L12 6l2.5-2.5M9.5 20.5L12 18l2.5 2.5"/></symbol>
+    <symbol id="i-spring" viewBox="0 0 24 24"><path d="M12 21v-9"/><path d="M12 12c0-4 3-7 8-7 0 4.5-3 7-8 7zM12 14c0-3.5-2.5-6-7-6 0 4 2.5 6 7 6z"/></symbol>
+    <symbol id="i-summer" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></symbol>
+    <symbol id="i-autumn" viewBox="0 0 24 24"><path d="M6 18C4 10 10 4 20 4c0 10-6 16-14 14z"/><path d="M4 20l9-9"/></symbol>
+
+    <!-- parasites -->
+    <symbol id="i-tick" viewBox="0 0 48 48"><ellipse cx="24" cy="27" rx="9" ry="11"/><circle cx="24" cy="13.5" r="3.5"/><path d="M15.5 22l-7-4-2 -5M15 27H6.5l-3 3M15.5 32l-6 4-1 5M32.5 22l7-4 2-5M33 27h8.5l3 3M32.5 32l6 4 1 5"/><path d="M20 24c2 1.5 6 1.5 8 0"/></symbol>
+    <symbol id="i-flea" viewBox="0 0 48 48"><path d="M13 26c0-8 6-14 14-14 6 0 9 4 9 9 0 8-7 14-15 14-5 0-8-3-8-9z"/><path d="M13 24l-5-3M20 34l-4 7 -5 1M27 33l2 8h5M33 28l6 7 4-1"/><circle cx="31" cy="18" r="1"/></symbol>
+    <symbol id="i-round" viewBox="0 0 48 48"><path d="M8 34c4-10 10 4 16-6s12 2 16-10"/><path d="M8 38c5-10 11 5 17-5s11 1 15-9"/></symbol>
+    <symbol id="i-tape" viewBox="0 0 48 48"><path d="M6 36c6-2 6-8 12-8s6 6 12 4 6-12 12-14"/><path d="M11 33.5l1.5 4M16.5 28.5l.5 4.5M22 29.5l-.5 4.5M27.5 32.5l-1 4M33 29l-2.5 3.5M37.5 22l-3 2.5"/><circle cx="42" cy="18" r="2"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 48 48"><path d="M24 40S7 30 7 18a8.5 8.5 0 0 1 17-2 8.5 8.5 0 0 1 17 2c0 12-17 22-17 22z"/><path d="M14 22c3 0 3 4 6 4s3-6 6-6 3 4 6 4"/></symbol>
+    <symbol id="i-louse" viewBox="0 0 48 48"><path d="M24 12c5 0 8 5 8 12s-3 14-8 14-8-7-8-14 3-12 8-12z"/><circle cx="24" cy="10" r="3"/><path d="M16 20l-7-3M16 26H8M17 32l-6 4M32 20l7-3M32 26h8M31 32l6 4M18 26h12M19 31h10"/></symbol>
+    <symbol id="i-mite" viewBox="0 0 48 48"><circle cx="24" cy="25" r="10"/><path d="M24 15v-4M14 22l-7-2M14 28l-7 3M34 22l7-2M34 28l7 3M17 33l-4 6M31 33l4 6"/><path d="M20 23h.01M28 23h.01"/></symbol>
+    <symbol id="i-ear" viewBox="0 0 48 48"><path d="M16 20a10 10 0 0 1 20 0c0 6-5 8-6 12s-2 8-7 8-6-4-6-4"/><path d="M22 20a4 4 0 0 1 8 0c0 3-3 3-3 6"/></symbol>
+  </defs>
+</svg>
+
+<!-- ───────── Header ───────── -->
+<header class="hdr" id="hdr">
+  <div class="wrap hdr__in">
+    <a class="hdr__logo" href="#top" aria-label="Inspector Quadro — на главную">
+      <img class="logo-w" src="img/logo-white.png" alt="Inspector Quadro" width="556" height="185">
+      <img class="logo-d" src="img/logo-dark.png" alt="" width="556" height="185" aria-hidden="true">
+    </a>
+    <nav class="hdr__nav" aria-label="Разделы">
+      <a href="#pick">Подбор</a>
+      <a href="#catalog">Препараты</a>
+      <a href="#how">Как применять</a>
+      <a href="#faq">Вопросы</a>
+      <a href="#care">Служба заботы</a>
+    </nav>
+    <a class="hdr__phone" href="tel:88002221965">8 800 222-19-65<small>Служба заботы</small></a>
+    <a class="btn" href="#pick">Где купить <svg class="icon arr"><use href="#i-arrow"/></svg></a>
+    <button class="hdr__burger" id="burger" aria-label="Меню" aria-expanded="false"><svg class="icon"><use href="#i-menu"/></svg></button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ───────── Hero / poster ───────── -->
+<section class="hero is-intro" id="hero" aria-label="С Inspector МОЖНО">
+  <div class="hero__media" aria-hidden="true">
+    <div class="hero__bgs" id="heroBgs"></div>
+    <div class="hero__shade"></div>
+  </div>
+  <div class="hero__layers" id="heroLayers" aria-hidden="true"></div>
+
+  <div class="wrap hero__in">
+    <div class="hero__stage">
+      <div class="hero__seasons" aria-label="4 сезона защиты">
+        <div class="hero__seasons-icons" aria-hidden="true">
+          <svg class="icon"><use href="#i-winter"/></svg>
+          <svg class="icon"><use href="#i-spring"/></svg>
+          <svg class="icon"><use href="#i-autumn"/></svg>
+          <svg class="icon"><use href="#i-summer"/></svg>
+        </div>
+        <span class="hero__seasons-num">4</span>
+        <span class="hero__seasons-lbl">сезона<br>защиты</span>
+      </div>
+
+      <h1 class="hero__word" aria-label="Можно">
+        <span class="ch" style="--i:0"><span>М</span></span><span class="ch" style="--i:1"><span>О</span></span><span class="ch" style="--i:2"><span>Ж</span></span><span class="ch" style="--i:3"><span>Н</span></span><span class="ch" style="--i:4"><span>О</span></span>
+      </h1>
+      <div class="hero__spacer" aria-hidden="true"></div>
+
+      <p class="hero__slogan"><span class="slash" aria-hidden="true"></span><span class="hero__slogan-text is-in" id="heroSlogan">спать на подушке</span></p>
+
+      <div class="hero__copy">
+        <p class="hero__sub">Комплексная защита кошек и собак от 4 групп паразитов — клещей, насекомых, круглых и ленточных гельминтов. Подберите препарат по виду, весу и возрасту питомца.</p>
+        <a class="btn btn--white" href="#pick">Подобрать препарат <svg class="icon arr"><use href="#i-arrow"/></svg></a>
+        <a class="link-arrow hero__ask" href="#care"><span>Задать вопрос</span> <svg class="icon arr"><use href="#i-arrow"/></svg></a>
+      </div>
+
+      <div class="hero__pack is-in" id="heroPack">
+        <img src="img/product-british-cat.webp" alt="Упаковка Inspector Quadro K для кошек 4–8 кг" width="1100" height="784">
+      </div>
+    </div>
+
+    <div>
+      <div class="hero__foot">
+        <div class="scenes" role="group" aria-label="Сюжеты кампании">
+          <button class="scene-btn" aria-pressed="true" data-scene="0"><img src="img/cat-british.webp" alt=""><span class="scene-btn__t">Британец<small>на подушке</small></span></button>
+          <button class="scene-btn" aria-pressed="false" data-scene="1"><img src="img/dog-jack-russell.webp" alt=""><span class="scene-btn__t">Джек-рассел<small>на природу</small></span></button>
+          <button class="scene-btn" aria-pressed="false" data-scene="2"><img src="img/cat-maine-coon.webp" alt=""><span class="scene-btn__t">Мейн-кун<small>на дачу</small></span></button>
+          <button class="scene-btn" aria-pressed="false" data-scene="3"><img src="img/dog-saint-bernard.webp" alt=""><span class="scene-btn__t">Сенбернар<small>на кровать</small></span></button>
+        </div>
+        <button class="hero__watch" data-open="gallery"><i><svg class="icon"><use href="#i-play"/></svg></i> Кампания «Можно»</button>
+      </div>
+      <p class="disclaimer">Имеются противопоказания. Необходимо проконсультироваться с ветеринарным специалистом.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── Promo slot ───────── -->
+<section class="promo" aria-label="Акция">
+  <div class="wrap">
+    <div class="promo__in rv">
+      <div>
+        <p class="promo__t">−15% на Inspector Quadro Tabs</p>
+        <p>Пример промо-блока: менеджер включает его в Битрикс — промокод, товар, магазин и срок действия. Клики считаются в Метрике.</p>
+      </div>
+      <div class="promo__code"><span id="promoCode">МОЖНО15</span><button type="button" id="copyCode">Скопировать</button></div>
+      <div class="promo__meta"><b>в 4 Лапы</b>до 31 октября 2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── Selector ───────── -->
+<section class="pick" id="pick" aria-labelledby="pickTitle">
+  <div class="wrap">
+    <div class="pick__head rv">
+      <h2 class="h2" id="pickTitle">Подберите защиту<br>для своего питомца</h2>
+      <p class="lead">Укажите, кто ваш питомец, сколько он весит и сколько ему. Покажем подходящие позиции каталога и где их купить — без регистрации и контактов.</p>
+    </div>
+
+    <form class="pult rv" id="pult" onsubmit="return false" aria-label="Параметры питомца">
+      <div class="pult__cell">
+        <span class="pult__lbl" id="lblKind">Питомец</span>
+        <div class="seg" role="group" aria-labelledby="lblKind">
+          <button type="button" aria-pressed="true" data-kind="cat"><svg class="icon"><use href="#i-cat"/></svg>Кошка</button>
+          <button type="button" aria-pressed="false" data-kind="dog"><svg class="icon"><use href="#i-dog"/></svg>Собака</button>
+        </div>
+      </div>
+      <div class="pult__cell">
+        <label class="pult__lbl" for="wIn">Точный вес</label>
+        <div class="weight">
+          <div class="weight__val"><input id="wIn" type="number" inputmode="decimal" min="0.5" max="80" step="0.1" value="4.5"><span>кг</span></div>
+          <div class="weight__range">
+            <input class="range" id="wRange" type="range" min="0.5" max="60" step="0.1" value="4.5" aria-label="Вес, ползунок">
+            <div class="chips" id="wChips"></div>
+          </div>
+        </div>
+      </div>
+      <div class="pult__cell">
+        <label class="pult__lbl" for="age">Возраст</label>
+        <div class="sel">
+          <select id="age">
+            <option value="baby">Младше 8 недель</option>
+            <option value="young">8 недель — 6 месяцев</option>
+            <option value="adult" selected>Старше 6 месяцев</option>
+            <option value="senior">Пожилой, старше 8 лет</option>
+          </select>
+        </div>
+      </div>
+      <div class="pult__cell pult__go">
+        <button class="btn" type="button" id="goPick">Показать <svg class="icon arr"><use href="#i-arrow"/></svg></button>
+      </div>
+      <div class="pult__more" role="group" aria-label="Особое состояние">
+        <span>Особое состояние:</span>
+        <label class="chk"><input type="checkbox" data-special><i></i>Беременность или лактация</label>
+        <label class="chk"><input type="checkbox" data-special><i></i>Есть заболевания</label>
+        <label class="chk"><input type="checkbox" data-special><i></i>Принимает другие препараты</label>
+      </div>
+    </form>
+
+    <div class="forms-filter" id="formFilter" role="group" aria-label="Форма препарата"></div>
+
+    <div class="results__meta" aria-live="polite">
+      <span id="resMeta">Подходит: <b>3 позиции</b></span>
+      <span>Выбор по инструкции. Границы веса — по таблице SKU.</span>
+    </div>
+    <div class="results" id="results" style="margin-top:18px"></div>
+    <p class="demo-note">В прототипе подбор работает на демонстрационных данных: итоговые границы веса, возраст и ограничения заполняются по утверждённой таблице SKU.</p>
+  </div>
+</section>
+
+
+
+<!-- ───────── 4 seasons ───────── -->
+<section class="ss" id="seasons" aria-roledescription="carousel" aria-label="4 сезона защиты">
+  <div class="ss__slides" id="ssSlides"></div>
+  <div class="ss__ui wrap">
+    <div class="ss__four" aria-hidden="true"><span>4</span><small>сезона<br>защиты</small></div>
+    <div class="ss__text" id="ssText" aria-live="polite"></div>
+    <div class="ss__nav" role="tablist" aria-label="Сезоны" id="ssNav"></div>
+    <p class="ss__note">Регулярные обработки круглый год — с интервалом из инструкции к конкретному препарату, а не одна обработка на год.</p>
+  </div>
+</section>
+
+<!-- ───────── Parasites ───────── -->
+<section class="pests" id="pests" aria-labelledby="pestsTitle">
+  <div class="wrap pests__in">
+    <div class="pests__head rv">
+      <h2 class="h2" id="pestsTitle">4 группы<br>паразитов —<br>один Inspector</h2>
+      <p>Препараты Inspector Quadro действуют на наружных и внутренних паразитов. Точный спектр — в инструкции к конкретной позиции.</p>
+    </div>
+    <ol class="pests__grid" id="pestsList"></ol>
+  </div>
+</section>
+
+<!-- ───────── Catalog ───────── -->
+<section class="cat" id="catalog" aria-labelledby="catTitle">
+  <div class="wrap">
+    <div class="cat__head rv">
+      <h2 class="h2" id="catTitle">Весь ассортимент</h2>
+      <div class="slider__nav">
+        <button class="slider__btn" id="catPrev" aria-label="Назад"><svg class="icon"><use href="#i-arrow-l"/></svg></button>
+        <button class="slider__btn" id="catNext" aria-label="Вперёд"><svg class="icon"><use href="#i-arrow"/></svg></button>
+      </div>
+    </div>
+    <div class="cat__tabs rv" id="catTabs" role="group" aria-label="Формы препарата" style="margin-bottom:26px"></div>
+    <div class="slider rv">
+      <div class="slider__track" id="catTrack"></div>
+      <div class="slider__bar"><i id="catBar"></i></div>
+    </div>
+
+    <div class="cat__ear rv">
+      <img src="https://inspector.ekoprom.org/upload/iblock/29b/oobxnpbcg2m3h6uf3z85scbhyxdgf1vf.png" alt="Ушные капли Inspector" loading="lazy">
+      <div>
+        <h3>Ушные капли Inspector — отдельная задача</h3>
+        <p>Препарат для лечения отодектоза и отитов бактериального происхождения. Не входит в сценарий профилактической защиты и не заменяет другие формы. Применяйте после осмотра ветеринарным специалистом.</p>
+      </div>
+      <button class="btn btn--ghost btn--sm" data-buy="ear">Где купить</button>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── How to use ───────── -->
+<section class="how" id="how" aria-labelledby="howTitle">
+  <div class="wrap">
+    <div class="how__head rv">
+      <h2 class="h2" id="howTitle">Как применять</h2>
+      <div class="cat__tabs" id="howTabs" role="group" aria-label="Форма"></div>
+    </div>
+    <div class="steps" id="steps"></div>
+    <div class="how__foot rv">
+      <p>Перед применением ознакомьтесь с инструкцией. Схемы для разных форм не смешиваются.</p>
+      <a class="how__pdf" href="#" id="howPdf"><i>PDF</i><span>Полная инструкция<small id="howPdfMeta">Таблетки Inspector Quadro Tabs · 3 МБ</small></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── Tick activity ───────── -->
+<section class="ticks" id="ticks" aria-labelledby="ticksTitle">
+  <div class="wrap">
+    <div class="ticks__in rv">
+      <div>
+        <h3 id="ticksTitle">Активность клещей по месяцам</h3>
+        <p>Всплески активности в течение года по России. Подробная карта регионов — на отдельной странице.</p>
+        <a class="link-arrow" href="#"><span>Открыть карту регионов</span> <svg class="icon arr"><use href="#i-arrow"/></svg></a>
+        <div class="legend">
+          <span style="--c:var(--red)"><i></i>Высокая</span>
+          <span style="--c:#f09a55"><i></i>Средняя</span>
+          <span style="--c:#c9cfe2"><i></i>Низкая</span>
+        </div>
+      </div>
+      <div class="months" id="months" aria-label="Диаграмма активности клещей"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── Shops ───────── -->
+<section class="shops on-dark" id="shops" aria-labelledby="shopsTitle">
+  <div class="wrap">
+    <div class="shops__head rv">
+      <h2 class="h2" id="shopsTitle">Где купить</h2>
+      <p class="lead">Inspector продаётся в ветаптеках и зоомагазинах по всей России. Мы сами не продаём — ведём к проверенным партнёрам.</p>
+    </div>
+    <div class="shops__grid rv" id="shopsMain"></div>
+    <div class="shops__more" id="shopsMore"><div><div class="shops__grid" id="shopsRest"></div></div></div>
+    <div class="shops__toggle"><button class="btn btn--ghost" id="shopsToggle" aria-expanded="false">Показать ещё магазины</button></div>
+  </div>
+</section>
+
+<!-- ───────── FAQ ───────── -->
+<section class="faq" id="faq" aria-labelledby="faqTitle">
+  <div class="wrap faq__grid">
+    <div class="faq__side rv">
+      <h2 class="h2" id="faqTitle">Полезно знать</h2>
+      <div class="cat__tabs" id="faqTabs" role="group" aria-label="Форма"></div>
+      <p style="margin-top:28px;color:var(--ink-3);font-size:15px">Не нашли ответ? <a href="#care" style="color:var(--blue);font-weight:600">Задайте вопрос</a> специалисту службы заботы.</p>
+    </div>
+    <div id="faqList"></div>
+  </div>
+</section>
+
+<!-- ───────── Care ───────── -->
+<section class="care" id="care" aria-labelledby="careTitle">
+  <div class="wrap">
+    <div class="care__in rv">
+      <div class="care__info on-dark">
+        <img class="care__bg" src="img/bg-care.webp" alt="" loading="lazy">
+        <h2 class="h2" id="careTitle">Служба<br>заботы</h2>
+        <p>Ответим на вопросы о продукции Inspector: выбор формы, применение, совместимость, ограничения.</p>
+        <a class="care__phone" href="tel:88002221965">8 800 222-19-65<small>Бесплатно по России · часы работы уточняются</small></a>
+      </div>
+      <form class="care__form" id="careForm" novalidate>
+        <h3>Связаться с консультантом</h3>
+        <p>Оставьте имя и удобный контакт — чтобы мы могли ответить на вопрос о продукции Inspector.</p>
+        <div class="fld" id="fName">
+          <label for="cName">Имя</label>
+          <input class="inp" id="cName" autocomplete="given-name" placeholder="Как к вам обращаться">
+          <span class="fld__err">Введите имя, чтобы консультант знал, как к вам обращаться</span>
+        </div>
+        <div class="fld">
+          <span class="fld__l">Как с вами связаться</span>
+          <div class="chan" role="group" aria-label="Канал связи">
+            <button type="button" aria-pressed="true" data-chan="tel">Телефон</button>
+            <button type="button" aria-pressed="false" data-chan="mail">Email</button>
+          </div>
+        </div>
+        <div class="fld" id="fContact">
+          <label for="cContact" id="cContactL">Телефон</label>
+          <input class="inp" id="cContact" type="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__">
+          <span class="fld__err">Укажите телефон или email — один канал обязателен</span>
+        </div>
+        <div class="row2">
+          <div class="fld">
+            <label for="cSku">Препарат <small>(необязательно)</small></label>
+            <div class="sel"><select class="inp" id="cSku" style="padding-right:40px"><option>Не выбран</option></select></div>
+          </div>
+          <div class="fld">
+            <label for="cPet">Питомец <small>(необязательно)</small></label>
+            <input class="inp" id="cPet" placeholder="Например, кошка 4 кг">
+          </div>
+        </div>
+        <div class="fld">
+          <label for="cQ">Ваш вопрос</label>
+          <textarea class="inp" id="cQ" placeholder="Опишите вопрос"></textarea>
+        </div>
+        <div class="fld" id="fAgree">
+          <label class="chk"><input type="checkbox" id="cAgree"><i></i><span>Согласен на обработку персональных данных для ответа на обращение. <a href="#">Согласие</a> и <a href="#">политика</a>.</span></label>
+          <span class="fld__err">Нужно согласие, чтобы мы могли ответить</span>
+        </div>
+        <button class="btn" type="submit" id="cSend"><span class="spin"></span>Отправить вопрос <svg class="icon arr"><use href="#i-arrow"/></svg></button>
+
+        <div class="care__done" role="status">
+          <div class="care__done-ico"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <h3>Вопрос принят</h3>
+          <p>Консультант службы заботы ответит по выбранному каналу. Номер обращения — <b>INS-20417</b>.</p>
+          <button type="button" class="link-arrow" id="careAgain" style="justify-self:start;margin-top:6px"><span>Задать ещё вопрос</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ───────── Footer ───────── -->
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__top">
+      <div>
+        <img class="ftr__logo" src="img/logo-white.png" alt="Inspector Quadro" width="556" height="185" loading="lazy">
+        <p style="margin:18px 0 0;max-width:34ch">Комплексная защита кошек и собак от наружных и внутренних паразитов.</p>
+      </div>
+      <div>
+        <h4>Разделы</h4>
+        <ul><li><a href="#pick">Подбор препарата</a></li><li><a href="#catalog">Ассортимент</a></li><li><a href="#how">Как применять</a></li><li><a href="#faq">Полезно знать</a></li></ul>
+      </div>
+      <div>
+        <h4>Документы</h4>
+        <ul><li><a href="#">Инструкции по применению</a></li><li><a href="#">Политика обработки данных</a></li><li><a href="#">Согласие на обработку</a></li><li><a href="#">Файлы cookie</a></li></ul>
+      </div>
+      <div>
+        <h4>Контакты</h4>
+        <ul><li><a href="tel:88002221965">8 800 222-19-65</a></li><li><a href="mailto:ekoprom@ekoprom.org">ekoprom@ekoprom.org</a></li><li>ЭКОПРОМ</li></ul>
+      </div>
+    </div>
+    <p class="ftr__disc">Имеются противопоказания. Необходимо проконсультироваться с ветеринарным специалистом.</p>
+    <div class="ftr__bot"><span>© 2026 Inspector. Все права защищены.</span><span>Концепт редизайна · прототип</span></div>
+  </div>
+</footer>
+
+<!-- Mobile CTA bar -->
+<div class="mbar" id="mbar">
+  <a class="btn" href="#pick">Подобрать</a>
+  <a class="btn btn--ghost" href="#shops">Где купить</a>
+</div>
+
+<!-- Buy modal -->
+<div class="modal" id="buy" role="dialog" aria-modal="true" aria-labelledby="buyTitle">
+  <div class="modal__bg" data-close></div>
+  <div class="modal__box">
+    <button class="modal__x" data-close aria-label="Закрыть"><svg class="icon"><use href="#i-close"/></svg></button>
+    <div class="buy__head">
+      <img id="buyImg" src="img/product-duo-tabs.webp" alt="">
+      <div>
+        <h3 id="buyTitle">Препарат</h3>
+        <p id="buySub"></p>
+      </div>
+    </div>
+    <div class="buy__body">
+      <div class="buy__grp">
+        <h4>Карточка этого препарата <span>дозировка сохранится</span></h4>
+        <div class="buy__list" id="buyDirect"></div>
+      </div>
+      <div class="buy__grp">
+        <h4>Маркетплейсы <span>поиск по бренду Inspector</span></h4>
+        <div class="buy__list" id="buyMarket"></div>
+      </div>
+      <div>
+        <button class="link-arrow" id="buyMoreBtn" aria-expanded="false"><span>Показать ещё магазины</span></button>
+        <div class="buy__more" id="buyMore"><div><div class="buy__list" id="buyRest"></div></div></div>
+      </div>
+      <p class="buy__note">Цены и наличие смотрите у продавца. Переход не требует регистрации. Перед применением ознакомьтесь с инструкцией.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Campaign gallery -->
+<div class="modal gallery" id="gallery" role="dialog" aria-modal="true" aria-label="Кампания «Можно»">
+  <div class="modal__bg" data-close></div>
+  <div class="modal__box">
+    <button class="modal__x" data-close aria-label="Закрыть"><svg class="icon"><use href="#i-close"/></svg></button>
+    <div class="gal">
+      <div class="gal__track" id="galTrack">
+        <div class="gal__slide"><img src="img/banner-british-pillow.webp" alt="Можно спать на подушке" loading="lazy"></div>
+        <div class="gal__slide"><img src="img/banner-jack-outdoor.webp" alt="Можно на природу" loading="lazy"></div>
+        <div class="gal__slide"><img src="img/banner-maine-outdoor.webp" alt="Можно на дачу" loading="lazy"></div>
+        <div class="gal__slide"><img src="img/banner-saint-bed.webp" alt="Можно на кровать" loading="lazy"></div>
+      </div>
+      <div class="gal__bar">
+        <div class="gal__dots" id="galDots"></div>
+        <span class="gal__cap" id="galCap">Ключевые визуалы кампании. Ролики 15 с — по клику, без автозвука.</span>
+        <div class="slider__nav" style="display:flex">
+          <button class="slider__btn" id="galPrev" aria-label="Назад"><svg class="icon"><use href="#i-arrow-l"/></svg></button>
+          <button class="slider__btn" id="galNext" aria-label="Вперёд"><svg class="icon"><use href="#i-arrow"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
