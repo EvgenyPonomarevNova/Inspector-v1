@@ -199,7 +199,6 @@ html { scrollbar-color: var(--ink-3) var(--paper-2); }
   overflow: hidden;
   isolation: isolate;
   background: rgb(var(--shade));
-  transition: background-color .9s var(--ease-io);
 }
 .hero__media { position: absolute; inset: 0; z-index: 0; }
 .hero__bgs, .hero__layers { position: absolute; inset: 0; }
@@ -210,13 +209,11 @@ html { scrollbar-color: var(--ink-3) var(--paper-2); }
   opacity: 0;
 }
 .hero__bgs img.is-on, .hero__layers img.is-on { opacity: 1; }
-.hero__bgs img.is-enter, .hero__layers img.is-enter { opacity: 1; z-index: 2; animation: sceneIn 1s var(--ease-io) both; }
+.hero__bgs img.is-enter, .hero__layers img.is-enter { opacity: 1; z-index: 2; animation: sceneIn .75s cubic-bezier(.7, 0, .2, 1) both; }
 @keyframes sceneIn {
   from { clip-path: polygon(0 0, 0 0, -30% 100%, -30% 100%); }
   to { clip-path: polygon(0 0, 130% 0, 100% 100%, -30% 100%); }
 }
-.hero__bgs img.is-on { animation: kenburns 14s linear both; }
-.hero__layers img.is-on { animation: none; }
 @keyframes kenburns { from { transform: scale(1.06); } to { transform: scale(1); } }
 .hero__shade {
   position: absolute; inset: 0; z-index: 1;
@@ -224,7 +221,6 @@ html { scrollbar-color: var(--ink-3) var(--paper-2); }
     linear-gradient(180deg, rgba(var(--shade), .7) 0%, rgba(var(--shade), 0) 26%),
     linear-gradient(90deg, rgba(var(--shade), .82) 0%, rgba(var(--shade), .5) 34%, rgba(var(--shade), 0) 62%),
     linear-gradient(0deg, rgba(var(--shade), .9) 0%, rgba(var(--shade), 0) 30%);
-  transition: background .9s;
 }
 
 .hero__in {
@@ -254,7 +250,7 @@ html { scrollbar-color: var(--ink-3) var(--paper-2); }
 }
 .hero__word .ch { display: inline-block; clip-path: polygon(-5% -5%, 105% -5%, 105% 105%, -5% 105%); }
 .hero__word .ch > span { display: inline-block; }
-.hero.is-intro .hero__word .ch > span { animation: chIn 1s var(--ease-out) both; animation-delay: calc(var(--i) * 70ms + 120ms); }
+.hero.is-intro .hero__word .ch > span { animation: chIn .7s var(--ease-out) both; animation-delay: calc(var(--i) * 45ms + 60ms); }
 @keyframes chIn { from { transform: translate(-.2em, 110%) skewX(-12deg); } }
 
 .hero__slogan {
@@ -269,7 +265,7 @@ html { scrollbar-color: var(--ink-3) var(--paper-2); }
   letter-spacing: .005em;
 }
 .hero__slogan .slash { height: .32em; width: 1.6em; }
-.hero__slogan-text.is-in { animation: sloganIn .8s var(--ease-out) .35s both; }
+.hero__slogan-text.is-in { animation: sloganIn .6s var(--ease-out) .15s both; }
 @keyframes sloganIn { from { opacity: 0; transform: translateX(-24px); } }
 
 .hero__copy {
@@ -290,7 +286,7 @@ html { scrollbar-color: var(--ink-3) var(--paper-2); }
   transform-origin: bottom center;
 }
 .hero__pack img { width: 100%; filter: drop-shadow(0 26px 30px rgba(0, 0, 0, .35)); }
-.hero__pack.is-in img { animation: packIn 1s var(--ease-out) .45s both; }
+.hero__pack.is-in img { animation: packIn .7s var(--ease-out) .12s both; }
 @keyframes packIn { from { opacity: 0; transform: translate(40px, 20px) rotate(8deg); } }
 
 .hero__seasons {
@@ -317,7 +313,8 @@ html { scrollbar-color: var(--ink-3) var(--paper-2); }
   color: #fff; font-size: 14px; font-weight: 500;
   transition: background .3s var(--ease-out);
 }
-.scene-btn img { width: 48px; height: 48px; object-fit: cover; object-position: 50% 30%; border-radius: 50%; background: rgba(255,255,255,.2); }
+.scene-btn img { width: 48px; height: 48px; object-fit: cover; object-position: 50% 50%; border-radius: 50%; background: rgba(255,255,255,.2); box-shadow: 0 0 0 2px rgba(255,255,255,.35); transition: box-shadow .3s; }
+.scene-btn[aria-pressed="true"] img { box-shadow: 0 0 0 2px var(--red); }
 .scene-btn:hover { background: rgba(255, 255, 255, .22); }
 .scene-btn[aria-pressed="true"] { background: #fff; color: var(--ink); }
 .scene-btn__t { text-align: left; line-height: 1.15; }

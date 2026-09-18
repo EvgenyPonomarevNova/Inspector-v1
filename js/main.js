@@ -198,30 +198,40 @@
   const mk = (src, s, eager) => { const i = new Image(); i.src = src; i.alt = ''; i.decoding = 'async'; if (!eager) i.loading = 'lazy'; i.style.setProperty('--pd', s.pd); i.style.setProperty('--pm', s.pm); return i; };
   SCENES.forEach((s, k) => { bgs.append(mk(s.bg, s, k === 0)); layers.append(mk(s.layer, s, k === 0)); });
   const bgImgs = [...bgs.children], lyImgs = [...layers.children];
-  let sceneIdx = -1, sceneT;
-  const setScene = (i, instant) => {
+  let sceneIdx = -1, sceneToken = 0;
+  const restart = (el, cls) => { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); };
+  const setScene = async (i, instant) => {
     const s = SCENES[i];
-    const prev = sceneIdx; sceneIdx = i;
+    const first = sceneIdx < 0;
+    sceneIdx = i;
+    const token = ++sceneToken;
     $$('.scene-btn').forEach((b, k) => b.setAttribute('aria-pressed', k === i));
-    hero.style.setProperty('--shade', s.shade);
-    document.querySelector('meta[name=theme-color]').content = s.theme;
-    [bgImgs, lyImgs].forEach(list => list.forEach(im => { im.loading = 'eager'; }));
-    const swap = () => {
-      [bgImgs, lyImgs].forEach(list => list.forEach((im, k) => { im.classList.toggle('is-on', k === i); im.classList.remove('is-enter'); }));
-    };
-    if (instant || reduce || prev < 0) swap();
-    else {
-      clearTimeout(sceneT);
-      [bgImgs, lyImgs].forEach(list => { list[i].classList.remove('is-enter'); void list[i].offsetWidth; list[i].classList.add('is-enter'); });
-      sceneT = setTimeout(swap, 1000);
-      hero.classList.remove('is-intro'); void hero.offsetWidth; hero.classList.add('is-intro');
-    }
-    const sl = $('#heroSlogan');
-    sl.textContent = s.slogan; sl.classList.remove('is-in'); void sl.offsetWidth; sl.classList.add('is-in');
-    const pk = $('#heroPack');
-    pk.querySelector('img').src = s.pack; pk.querySelector('img').alt = 'Упаковка ' + s.packAlt;
-    pk.classList.remove('is-in'); void pk.offsetWidth; pk.classList.add('is-in');
+    // wait until photo, cut-out and pack are decoded, so everything starts on the same frame
+    const pk = $('#heroPack').querySelector('img');
+    const next = new Image(); next.src = s.pack;
+    await Promise.all([bgImgs[i], lyImgs[i], next].map(im => (im.decode ? im.decode() : Promise.resolve()).catch(() => {})));
+    if (token !== sceneToken) return;
+    requestAnimationFrame(() => {
+      hero.style.setProperty('--shade', s.shade);
+      document.querySelector('meta[name=theme-color]').content = s.theme;
+      const animate = !(instant || reduce || first);
+      [bgImgs, lyImgs].forEach(list => list.forEach((im, k) => {
+        im.classList.remove('is-enter');
+        if (k === i) { im.classList.add('is-on'); if (animate) restart(im, 'is-enter'); }
+      }));
+      // older frames are removed right after the reveal, in one step for both layers
+      clearTimeout(setScene.t);
+      setScene.t = setTimeout(() => {
+        if (token !== sceneToken) return;
+        [bgImgs, lyImgs].forEach(list => list.forEach((im, k) => { if (k !== i) im.classList.remove('is-on'); im.classList.remove('is-enter'); }));
+      }, animate ? 760 : 0);
+      const sl = $('#heroSlogan'); sl.textContent = s.slogan; restart(sl, 'is-in');
+      pk.src = s.pack; pk.alt = 'Упаковка ' + s.packAlt; restart($('#heroPack'), 'is-in');
+      if (animate) restart(hero, 'is-intro');
+    });
   };
+  // warm up the other scenes after the first paint
+  addEventListener('load', () => [...bgImgs, ...lyImgs].forEach(im => { im.loading = 'eager'; im.decode?.().catch(() => {}); }));
   $$('.scene-btn').forEach(b => b.addEventListener('click', () => { const i = +b.dataset.scene; if (i !== sceneIdx) setScene(i); }));
   // campaign story from the ad link, no auto-rotation: ?scene=jack
   const q = new URLSearchParams(location.search).get('scene');
@@ -399,23 +409,6 @@
     const o = e.target.closest('[data-open]');
     if (o) openModal(o.dataset.open);
   });
-
-  /* ─────────── Gallery ─────────── */
-  const galN = 4; let gi = 0;
-  const caps = ['Можно спать на подушке', 'Можно на природу', 'Можно на дачу', 'Можно на кровать'];
-  $('#galDots').innerHTML = caps.map((c, i) => `<button aria-label="${c}" aria-current="${i === 0}"></button>`).join('');
-  const galGo = i => {
-    gi = (i + galN) % galN;
-    $('#galTrack').style.transform = `translateX(${-gi * 100}%)`;
-    $$('#galDots button').forEach((b, k) => b.setAttribute('aria-current', k === gi));
-    $('#galCap').textContent = caps[gi] + ' · ключевой визуал кампании';
-  };
-  $('#galPrev').addEventListener('click', () => galGo(gi - 1));
-  $('#galNext').addEventListener('click', () => galGo(gi + 1));
-  $('#galDots').addEventListener('click', e => { const b = e.target.closest('button'); if (b) galGo([...b.parentNode.children].indexOf(b)); });
-  let gx = null;
-  $('#galTrack').addEventListener('pointerdown', e => gx = e.clientX);
-  $('#galTrack').addEventListener('pointerup', e => { if (gx === null) return; const d = e.clientX - gx; if (Math.abs(d) > 40) galGo(gi + (d < 0 ? 1 : -1)); gx = null; });
 
   /* ─────────── Promo ─────────── */
   $('#copyCode').addEventListener('click', () => {
